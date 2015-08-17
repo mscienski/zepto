@@ -266,7 +266,13 @@
       }
     }
 
-    var xhrCopy = $.extend({}, xhr)
+    var xhrCopy = new window.XMLHttpRequest();
+
+    Object.keys(xhr).forEach(function(key) {
+      if (!/response|blob|withcredentials/gi.test(key)) {
+        xhrCopy[key] = xhr[key];
+      }
+    });
 
     if (ajaxBeforeSend(xhrCopy, settings) === false) {
       xhr.abort()
